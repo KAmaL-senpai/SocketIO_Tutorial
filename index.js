@@ -5,6 +5,7 @@ const { join } = require("node:path");
 const { Server } = require("socket.io");
 const sqlite3 = require("sqlite3");
 const { open } = require("sqlite");
+const path = require("path");
 
 async function main() {
   const db = await open({
@@ -25,6 +26,8 @@ async function main() {
   const io = new Server(server, {
     connectionStateRecovery: {},
   });
+  
+  app.use(express.static(path.join(__dirname)));
 
   app.get("/", (req, res) => {
     res.sendFile(join(__dirname, "index.html"));
